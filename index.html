@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>한국생산기술연구원 AI 실무 적용 특강 자료</title>
+  <style>
+    :root{
+      --bg:#f5f8fc; --card:#ffffff; --text:#111827; --muted:#667085; --line:#dfe7f2;
+      --blue:#2563eb; --navy:#16243a; --soft:#eef4ff;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:linear-gradient(180deg,#f8fbff 0%,#f2f6fb 100%);color:var(--text);letter-spacing:-.03em}
+    a{text-decoration:none;color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:56px 28px 72px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:36px}.badge{display:inline-flex;align-items:center;padding:9px 14px;border-radius:999px;background:var(--soft);color:var(--blue);font-size:14px;font-weight:700;margin-bottom:18px}.title{font-size:44px;line-height:1.12;margin:0;font-weight:800}.sub{font-size:18px;line-height:1.7;color:var(--muted);margin:18px 0 0}.meta{font-size:15px;color:#7b8495;text-align:right;padding-top:10px;white-space:nowrap}.notice{background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px 34px;margin:30px 0 28px;box-shadow:0 18px 46px rgba(24,39,75,.06)}.notice h2{font-size:23px;margin:0 0 12px;font-weight:750}.notice p{font-size:17px;line-height:1.75;color:#475467;margin:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}.card{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:30px;min-height:285px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 20px 50px rgba(24,39,75,.07)}.num{font-size:15px;color:var(--blue);font-weight:800;margin-bottom:18px;letter-spacing:.02em}.card h3{font-size:30px;line-height:1.2;margin:0 0 14px;font-weight:800}.card p{font-size:16px;line-height:1.65;color:#5f6b7a;margin:0}.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 20px;border-radius:16px;font-size:16px;font-weight:750;border:1px solid var(--line);background:#f7f9fd}.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.dark{background:var(--navy);color:#fff;border-color:var(--navy)}.footer{margin-top:36px;font-size:14px;color:#8a94a6;text-align:center}.lock{position:fixed;inset:0;background:linear-gradient(135deg,#edf4ff,#f8fbff);display:flex;align-items:center;justify-content:center;z-index:100}.lockbox{width:min(440px,calc(100vw - 40px));background:#fff;border:1px solid var(--line);border-radius:30px;padding:34px;box-shadow:0 24px 70px rgba(24,39,75,.14)}.lockbox h1{font-size:30px;margin:0 0 10px}.lockbox p{font-size:15px;color:var(--muted);line-height:1.6;margin:0 0 22px}.inputrow{display:flex;gap:10px}.inputrow input{flex:1;height:52px;border:1px solid var(--line);border-radius:16px;padding:0 16px;font-size:18px;outline:none}.inputrow button{height:52px;border:0;border-radius:16px;background:var(--blue);color:white;font-weight:800;padding:0 20px;font-size:16px}.error{display:none;margin-top:12px;color:#e11d48;font-size:14px}.hidden{display:none!important}@media(max-width:900px){.top{display:block}.meta{text-align:left}.grid{grid-template-columns:1fr}.title{font-size:36px}.card{min-height:auto}.wrap{padding:36px 18px 56px}}
+  </style>
+</head>
+<body>
+  <div class="lock" id="lock">
+    <div class="lockbox">
+      <h1>자료 입장</h1>
+      <p>강의 자료 확인을 위해 비밀번호를 입력해 주세요.</p>
+      <div class="inputrow">
+        <input id="pw" type="password" inputmode="numeric" placeholder="비밀번호" />
+        <button onclick="unlock()">입장</button>
+      </div>
+      <div class="error" id="err">비밀번호를 다시 확인해 주세요.</div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="top">
+      <div>
+        <div class="badge">AI 실무 적용 특강 자료</div>
+        <h1 class="title">한국생산기술연구원<br>강의 자료실</h1>
+        <p class="sub">발표 자료, 실습 자료, 전자책을 한 곳에서 확인할 수 있습니다.</p>
+      </div>
+      <div class="meta">2026 · 이유진</div>
+    </section>
+
+    <section class="notice">
+      <h2>안내</h2>
+      <p>아래 자료는 강의 흐름에 맞춰 순서대로 확인하시면 됩니다. 발표용 PDF로 전체 개념을 보고, 실습용 HTML에서 폴더와 Skill 설계를 따라가며, 전자책 HTML에서 개념 설명을 추가로 복습할 수 있습니다.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div>
+          <div class="num">01 PRESENTATION</div>
+          <h3>발표용 PDF</h3>
+          <p>강의 전체 흐름과 핵심 개념을 담은 발표 자료입니다.</p>
+        </div>
+        <div class="btns">
+          <a class="btn primary" href="presentation.pdf" target="_blank">열기</a>
+          <a class="btn" href="presentation.pdf" download>다운로드</a>
+        </div>
+      </article>
+      <article class="card">
+        <div>
+          <div class="num">02 PRACTICE</div>
+          <h3>실습용 HTML</h3>
+          <p>Input / Check / Output / Command 구조를 직접 설계하는 실습 자료입니다.</p>
+        </div>
+        <div class="btns">
+          <a class="btn primary" href="practice.html" target="_blank">열기</a>
+          <a class="btn" href="practice.html" download>다운로드</a>
+        </div>
+      </article>
+      <article class="card">
+        <div>
+          <div class="num">03 EBOOK</div>
+          <h3>전자책 HTML</h3>
+          <p>MD 파일, CLAUDE.md, reference, command 개념을 더 자세히 설명한 복습 자료입니다.</p>
+        </div>
+        <div class="btns">
+          <a class="btn dark" href="ebook.html" target="_blank">열기</a>
+          <a class="btn" href="ebook.html" download>다운로드</a>
+        </div>
+      </article>
+    </section>
+    <div class="footer">© 2026 이유진. 본 자료는 강의 및 실습 목적으로 제작되었습니다.</div>
+  </main>
+
+  <script>
+    const PASSWORD = '0430';
+    const lock = document.getElementById('lock');
+    const input = document.getElementById('pw');
+    const err = document.getElementById('err');
+    function unlock(){
+      if(input.value === PASSWORD){
+        sessionStorage.setItem('materials-unlocked','true');
+        lock.classList.add('hidden');
+      } else {
+        err.style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    }
+    input.addEventListener('keydown', e => { if(e.key === 'Enter') unlock(); });
+    if(sessionStorage.getItem('materials-unlocked') === 'true') lock.classList.add('hidden');
+  </script>
+</body>
+</html>

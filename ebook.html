@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>내 업무를 Claude Code 폴더와 Skill로 설계하기 | 전자책</title>
+<style>
+:root{--bg:#f3f4f6;--paper:#fff;--ink:#1f2937;--body:#374151;--muted:#6b7280;--line:#d7dde6;--deep:#263447;--deep2:#34465f;--accent:#3b5b82;--soft:#f7f8fa;--note:#f4f6f8;--warn:#fff8ed}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;letter-spacing:-.025em;line-height:1.72}a{color:inherit;text-decoration:none}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.topbar .inner{max-width:1080px;margin:0 auto;height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;color:#475569;font-size:14px}.brand{font-weight:700}.nav{display:flex;gap:18px}.nav a{color:#64748b}.nav a:hover{color:#111827}
+.wrap{max-width:1080px;margin:0 auto;padding:42px 24px 90px}.paper{background:var(--paper);border:1px solid var(--line);box-shadow:0 24px 70px rgba(15,23,42,.08)}
+.cover{min-height:calc(100vh - 110px);display:grid;grid-template-columns:1fr;align-items:stretch;border-radius:8px;overflow:hidden}.cover-head{background:linear-gradient(135deg,#243247,#374b66);color:white;padding:72px 74px 58px}.eyebrow{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#cbd5e1;font-weight:700}.cover h1{font-size:58px;line-height:1.12;letter-spacing:-.055em;margin:28px 0 24px;font-weight:760}.cover .subtitle{font-size:21px;line-height:1.7;color:#e5e7eb;max-width:780px}.cover-body{padding:44px 74px 56px;background:#fff;display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:start}
+.summary h2{margin:0 0 14px;font-size:22px}.summary p{margin:0;color:var(--body);font-size:17px}.meta-list{display:grid;gap:10px}.meta{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid #e5e7eb;padding:11px 0;font-size:15px}.meta b{color:#475569}.meta span{color:#111827}.toc{margin-top:22px;border-top:2px solid var(--deep);padding-top:18px}.toc-title{font-weight:760;margin-bottom:8px}.toc a{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid #e5e7eb;color:#374151}.toc small{color:#6b7280}
+.chapter{margin-top:42px;border-radius:8px;padding:56px 68px}.chapter+.chapter{margin-top:26px}.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:760}.chapter h2{font-size:38px;line-height:1.25;letter-spacing:-.045em;margin:12px 0 18px;font-weight:740}.lead{font-size:19px;color:#374151;line-height:1.75;margin:0 0 26px}.chapter h3{font-size:24px;margin:34px 0 12px;letter-spacing:-.035em}.chapter p{font-size:17px;color:var(--body);margin:12px 0}.rule{height:1px;background:var(--line);margin:30px 0}.quote{border-left:4px solid var(--deep2);padding:8px 0 8px 22px;margin:26px 0;font-size:22px;line-height:1.6;font-weight:680;color:#1f2937;background:#fafafa}
+.grid{display:grid;gap:18px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.box{border:1px solid var(--line);background:#fff;border-radius:6px;padding:22px}.box.gray{background:#f9fafb}.box h4{margin:0 0 10px;font-size:18px}.box p,.box li{font-size:16px;color:#4b5563;margin:0}.num{display:inline-block;font-size:13px;color:#475569;font-weight:760;margin-bottom:8px}
+.table{width:100%;border-collapse:collapse;margin:20px 0;background:#fff;border-top:2px solid var(--deep);border-bottom:1px solid var(--line)}.table th,.table td{padding:15px 16px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top;font-size:15.5px}.table th{background:#f6f7f9;color:#374151;font-weight:720}.table td{color:#374151}.note{background:var(--note);border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin:22px 0}.note b{display:block;margin-bottom:8px;color:#243247}.note p{margin:0;color:#4b5563}.warn{background:var(--warn);border-color:#ead7bd}.code{background:#1f2937;color:#e5e7eb;border-radius:6px;padding:22px 24px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:14px;line-height:1.7;white-space:pre-wrap;overflow:auto;margin:18px 0}.plain-list{padding-left:20px}.plain-list li{margin:8px 0;color:#374151}.checklist{display:grid;gap:8px;margin-top:16px}.check{border-bottom:1px solid #e5e7eb;padding:11px 0;color:#374151}.footer{max-width:1080px;margin:0 auto;padding:34px 24px 56px;color:#6b7280;font-size:14px;text-align:center}
+@media(max-width:860px){.nav{display:none}.cover-body,.two,.three{grid-template-columns:1fr}.cover-head,.cover-body,.chapter{padding:38px 28px}.cover h1{font-size:40px}.chapter h2{font-size:30px}}@media print{body{background:#fff}.topbar{display:none}.wrap{max-width:none;padding:0}.paper,.chapter{box-shadow:none;border-radius:0}.chapter{page-break-before:always;border:0}.cover{min-height:100vh;border:0}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="inner"><div class="brand">Folder & Skill Design E-book</div><nav class="nav"><a href="#ch1">구조화</a><a href="#ch2">MD</a><a href="#ch3">CLAUDE.md</a><a href="#ch4">Command</a><a href="#ch5">검수</a></nav></div></header>
+<main class="wrap">
+<section class="cover paper">
+  <div class="cover-head">
+    <div class="eyebrow">Mentoring E-book / Folder & Skill Design</div>
+    <h1>내 업무를<br>Claude Code 폴더와<br>Skill로 설계하기</h1>
+    <p class="subtitle">반복 업무를 AI가 이해하고 실행할 수 있는 구조로 바꾸기 위한 이론형 가이드입니다. 실습자료가 빈칸을 채우는 자료라면, 이 전자책은 왜 그런 구조가 필요한지 설명하는 자료입니다.</p>
+  </div>
+  <div class="cover-body">
+    <div class="summary">
+      <h2>이 자료의 목적</h2>
+      <p>AI에게 단발성 답변을 요청하는 수준을 넘어, 자료 / 기준 / 결과물 / 실행 절차가 분리된 업무 환경을 설계하는 방법을 설명합니다. 특히 Markdown, CLAUDE.md, reference 문서, command 파일이 각각 어떤 역할을 하는지 중심으로 정리했습니다.</p>
+      <div class="toc">
+        <div class="toc-title">목차</div>
+        <a href="#ch1"><span>01. AI 업무 구조화의 의미</span><small>p.01</small></a>
+        <a href="#ch2"><span>02. MD 파일과 Markdown</span><small>p.02</small></a>
+        <a href="#ch3"><span>03. CLAUDE.md와 reference</span><small>p.03</small></a>
+        <a href="#ch4"><span>04. Command와 Skill</span><small>p.04</small></a>
+        <a href="#ch5"><span>05. 사람 검수와 운영 기준</span><small>p.05</small></a>
+      </div>
+    </div>
+    <div class="meta-list">
+      <div class="meta"><b>대상</b><span>행정직 실무자 / 비개발자 / AI 업무 적용 입문자</span></div>
+      <div class="meta"><b>핵심 개념</b><span>Input / Check / Output / Command</span></div>
+      <div class="meta"><b>최종 목표</b><span>AI에게 업무를 인수인계할 수 있는 최소 구조 이해</span></div>
+      <div class="meta"><b>활용 방식</b><span>강의 후 복습 / 실습 전 개념 정리 / 멘토링 참고자료</span></div>
+      <div class="meta"><b>작성자</b><span>이유진 · Product Manager / AX Consultant</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="ch1" class="chapter paper">
+  <div class="label">Chapter 01</div>
+  <h2>AI에게 일을 맡긴다는 것은<br>업무 환경을 설계한다는 뜻입니다.</h2>
+  <p class="lead">많은 사람이 AI를 사용하지만, 실제 업무 효율이 크게 바뀌지 않는 이유는 단순합니다. AI에게 질문은 했지만, 일을 할 수 있는 환경은 만들어주지 않았기 때문입니다.</p>
+  <p>“회의록 정리해줘”, “보고서 초안 써줘”, “문의 답변 만들어줘” 같은 요청은 빠릅니다. 하지만 매번 자료를 다시 설명해야 하고, 양식과 톤이 흔들리며, 결과물이 다음 업무의 기준으로 남지 않습니다. 이 상태에서는 AI가 업무 보조자가 아니라 일회성 답변 생성기에 가깝습니다.</p>
+  <div class="quote">AI 업무 구조화의 핵심은 사람이 하던 판단과 절차를 AI가 읽을 수 있는 문서와 폴더로 바꾸는 것입니다.</div>
+  <div class="grid three">
+    <div class="box gray"><span class="num">문제 1</span><h4>맥락 단절</h4><p>자료와 배경을 매번 새로 입력해야 합니다.</p></div>
+    <div class="box gray"><span class="num">문제 2</span><h4>기준 부재</h4><p>좋은 결과물의 기준이 문서로 남아 있지 않습니다.</p></div>
+    <div class="box gray"><span class="num">문제 3</span><h4>자산화 실패</h4><p>결과물이 다음 업무의 샘플이나 기준으로 이어지지 않습니다.</p></div>
+  </div>
+  <h3>업무를 4개 요소로 나누기</h3>
+  <table class="table"><thead><tr><th>요소</th><th>질문</th><th>폴더/파일</th></tr></thead><tbody>
+    <tr><td><b>Input</b></td><td>AI가 읽어야 할 원본 자료는 무엇인가?</td><td>data/</td></tr>
+    <tr><td><b>Check</b></td><td>AI가 따라야 할 기준, 양식, 금지사항은 무엇인가?</td><td>CLAUDE.md, reference/</td></tr>
+    <tr><td><b>Output</b></td><td>AI가 만들어야 할 결과물은 무엇인가?</td><td>output/</td></tr>
+    <tr><td><b>Command</b></td><td>반복 실행할 절차는 무엇인가?</td><td>.claude/commands/</td></tr>
+  </tbody></table>
+</section>
+
+<section id="ch2" class="chapter paper">
+  <div class="label">Chapter 02</div>
+  <h2>MD 파일은 AI에게 읽히기 좋은<br>가벼운 업무 문서입니다.</h2>
+  <p class="lead">MD 파일은 Markdown 형식으로 작성된 문서입니다. 워드나 PPT처럼 꾸미는 문서가 아니라, 제목 / 목록 / 표 / 코드블록처럼 구조가 명확한 텍스트 문서입니다.</p>
+  <p>AI는 화려한 디자인보다 명확한 구조를 더 잘 읽습니다. 그래서 업무 기준서, 체크리스트, 역할 정의, 실행 절차는 md 파일로 정리하는 것이 좋습니다. md 파일은 사람이 읽기에도 쉽고, Git이나 Claude Code 같은 개발/AI 도구 안에서도 다루기 쉽습니다.</p>
+  <div class="grid two">
+    <div class="box"><h4>MD 파일이 적합한 경우</h4><ul class="plain-list"><li>업무 기준을 문서로 남길 때</li><li>AI에게 역할과 원칙을 알려줄 때</li><li>반복 실행 절차를 저장할 때</li><li>검수 체크리스트를 만들 때</li></ul></div>
+    <div class="box"><h4>MD 파일이 덜 적합한 경우</h4><ul class="plain-list"><li>복잡한 디자인 편집이 필요한 문서</li><li>법적 서식처럼 원본 형식이 중요한 문서</li><li>엑셀 계산식이나 데이터 분석이 중심인 자료</li><li>이미지 배치가 핵심인 발표 자료</li></ul></div>
+  </div>
+  <h3>Markdown 기본 문법</h3>
+  <div class="code"># 큰 제목
+## 중간 제목
+### 작은 제목
+
+- 목록 1
+- 목록 2
+
+| 구분 | 내용 |
+|---|---|
+| Input | AI가 읽을 원본 자료 |
+| Check | AI가 따라야 할 기준 |
+
+```text
+폴더 구조, 명령어, 예시는 코드블록으로 정리합니다.
+```</div>
+  <div class="note"><b>멘토 코멘트</b><p>MD 파일은 개발자만 쓰는 문서가 아닙니다. AI에게 업무를 맡기기 위해 기준과 절차를 명확하게 적는 실무 문서라고 이해하면 됩니다.</p></div>
+</section>
+
+<section id="ch3" class="chapter paper">
+  <div class="label">Chapter 03</div>
+  <h2>CLAUDE.md는 프로젝트 안의<br>AI 업무 매뉴얼입니다.</h2>
+  <p class="lead">CLAUDE.md는 Claude Code가 프로젝트 안에서 참고하는 기본 지침서입니다. 이 프로젝트에서 AI가 어떤 역할을 하고, 어떤 기준을 지키며, 어떤 행동을 하면 안 되는지 적어두는 파일입니다.</p>
+  <p>사람에게 일을 맡길 때도 “이 업무의 목적은 무엇인지”, “어떤 톤으로 작성해야 하는지”, “어떤 정보는 절대 외부에 쓰면 안 되는지”를 알려줘야 합니다. CLAUDE.md는 그 설명을 AI가 계속 참고할 수 있도록 프로젝트 안에 고정하는 문서입니다.</p>
+  <table class="table"><thead><tr><th>항목</th><th>설명</th><th>예시</th></tr></thead><tbody>
+    <tr><td>역할</td><td>AI가 어떤 업무 동료처럼 행동해야 하는지 정의</td><td>멘토 운영을 보조하는 AI 업무 동료</td></tr>
+    <tr><td>업무 목표</td><td>이 프로젝트가 줄이려는 비효율과 만들 결과물 정의</td><td>반복 피드백 작성 시간을 줄이고 기준을 통일</td></tr>
+    <tr><td>기본 원칙</td><td>항상 지켜야 할 판단 기준</td><td>원본 자료에 없는 내용은 단정하지 않는다</td></tr>
+    <tr><td>금지사항</td><td>AI가 하면 안 되는 행동</td><td>최종 승인, 외부 발송, 민감정보 노출</td></tr>
+    <tr><td>출력 형식</td><td>결과물을 어떤 구조로 낼지 정의</td><td>요약 / 핵심 내용 / 확인 필요 / 다음 액션</td></tr>
+  </tbody></table>
+  <h3>CLAUDE.md 예시</h3>
+  <div class="code"># Mentor Operation OS
+
+## 역할
+너는 멘토 운영을 보조하는 AI 업무 동료다.
+
+## 업무 목표
+팀별 제출물을 읽고, 기준에 맞는 피드백 초안을 작성한다.
+
+## 기본 원칙
+- 따뜻하지만 모호하지 않게 작성한다.
+- 확인되지 않은 내용은 단정하지 않는다.
+- 최종 판단과 발송은 사람이 한다.</div>
+  <div class="rule"></div>
+  <h3>reference/는 세부 기준서 보관함입니다.</h3>
+  <p>CLAUDE.md가 프로젝트 전체의 업무 매뉴얼이라면, reference/는 개별 업무의 세부 기준서입니다. 예를 들어 피드백 톤 가이드, 보고서 양식, 표현 금지어, 검수 체크리스트처럼 업무마다 달라지는 기준을 분리해 보관합니다.</p>
+</section>
+
+<section id="ch4" class="chapter paper">
+  <div class="label">Chapter 04</div>
+  <h2>Command는 긴 프롬프트가 아니라<br>반복 가능한 업무 절차입니다.</h2>
+  <p class="lead">command 파일은 매번 길게 설명하던 업무 요청을 절차로 저장한 파일입니다. “무엇을 읽고, 어떤 기준으로 판단하고, 어떤 순서로 처리하고, 어디에 저장할지”를 적습니다.</p>
+  <p>좋은 command는 똑똑한 질문이 아니라 업무 레시피에 가깝습니다. 같은 자료와 기준을 넣었을 때 비슷한 수준의 결과물이 반복해서 나와야 합니다.</p>
+  <div class="grid two">
+    <div class="box gray"><h4>좋지 않은 요청</h4><p>“이 자료 보고 피드백 잘 써줘.”<br><br>자료 위치, 판단 기준, 출력 형식, 검수 지점이 없어 결과가 매번 달라질 수 있습니다.</p></div>
+    <div class="box gray"><h4>좋은 command</h4><p>data/ 제출물을 읽고 reference/ 기준에 맞춰 요약, 잘한 점, 보완점, 다음 액션, 확인 필요 사항 순서로 output/에 초안을 저장합니다.</p></div>
+  </div>
+  <h3>command 파일 기본 구조</h3>
+  <div class="code"># feedback-draft
+
+## 설명
+팀 제출 자료를 바탕으로 멘토 피드백 초안을 작성한다.
+
+## 입력
+- data/team-submissions/
+- reference/feedback-criteria.md
+- reference/mentor-tone-guide.md
+
+## 처리 단계
+1. 제출 자료의 핵심 내용을 요약한다.
+2. 기준에 맞춰 잘한 점과 보완점을 분리한다.
+3. 다음 액션 3개를 제안한다.
+4. 확인이 필요한 내용을 별도로 표시한다.</div>
+  <div class="note"><b>Skill과 command의 관계</b><p>Skill은 반복 업무를 수행하는 기능 또는 역할로 이해하면 됩니다. command 파일은 그 Skill이 실행될 때 따를 절차서입니다. 즉, Skill이 업무 역할이라면 command는 업무 매뉴얼입니다.</p></div>
+</section>
+
+<section id="ch5" class="chapter paper">
+  <div class="label">Chapter 05</div>
+  <h2>AI 구조화의 완성은<br>사람 검수 지점을 남기는 것입니다.</h2>
+  <p class="lead">AI에게 일을 맡긴다는 것은 사람의 책임이 사라진다는 뜻이 아닙니다. 오히려 사람이 반드시 봐야 할 지점을 더 명확하게 표시하는 과정입니다.</p>
+  <p>특히 행정 업무에서는 사실관계, 수치, 개인정보, 외부 발송 여부, 최종 판단이 중요합니다. 이런 항목은 AI가 초안을 만들더라도 사람이 마지막에 확인해야 합니다.</p>
+  <table class="table"><thead><tr><th>검수 항목</th><th>왜 필요한가</th><th>예시</th></tr></thead><tbody>
+    <tr><td>사실관계</td><td>AI가 원문을 잘못 해석할 수 있음</td><td>결정사항, 참석자, 일정</td></tr>
+    <tr><td>수치</td><td>숫자 오류는 업무 신뢰도에 직접 영향</td><td>예산, 인원, 기한, 점수</td></tr>
+    <tr><td>개인정보</td><td>외부 노출 시 리스크가 큼</td><td>이름, 연락처, 평가 내용</td></tr>
+    <tr><td>외부 발송</td><td>문구 하나가 기관 입장으로 해석될 수 있음</td><td>메일, 안내문, 공지</td></tr>
+    <tr><td>최종 판단</td><td>승인과 결정은 사람이 책임져야 함</td><td>합격/불합격, 예산 승인, 공식 답변</td></tr>
+  </tbody></table>
+  <div class="warn note"><b>실무 적용 기준</b><p>처음부터 최종 발송이나 승인까지 자동화하지 않습니다. 첫 단계에서는 요약, 분류, 초안 작성, 누락 탐지처럼 사람이 검토하기 쉬운 구간부터 설계하는 것이 안전합니다.</p></div>
+  <h3>최종 점검</h3>
+  <div class="checklist"><div class="check">반복 업무가 하나로 좁혀졌는가?</div><div class="check">data / reference / output / commands가 구분되어 있는가?</div><div class="check">CLAUDE.md에 역할, 원칙, 금지사항이 있는가?</div><div class="check">command 파일의 입력 / 처리 / 출력이 연결되는가?</div><div class="check">사람이 검수해야 할 지점이 분리되어 있는가?</div></div>
+  <div class="quote">오늘 하나만 기억한다면: 반복 업무는 자료 → 기준 → 결과물 → 실행 레시피로 구조화할 수 있습니다.</div>
+</section>
+</main>
+<footer class="footer">© 2026 이유진. 본 자료는 강의 및 실습 목적으로 제작되었습니다.</footer>
+</body>
+</html>
