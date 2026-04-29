@@ -1,134 +1,452 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>멘토링 실습자료 | AI 프로젝트 폴더 v1 워크북</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MENTORING WORKBOOK | Claude Code 폴더와 Skill 설계하기</title>
 <style>
-:root{
-  --bg:#f3f4f6;--paper:#ffffff;--ink:#1f2937;--body:#374151;--muted:#6b7280;
-  --line:#d7dde6;--deep:#263447;--deep2:#34465f;--accent:#3b5b82;
-  --soft:#f7f8fa;--note:#f4f6f8;--field:#fbfcfd;--warn:#fff8ed;
-}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;letter-spacing:-.025em;line-height:1.68}a{color:inherit;text-decoration:none}
-.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
-.topbar .inner{max-width:1080px;margin:0 auto;height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;color:#475569;font-size:14px}.brand{font-weight:720}.nav{display:flex;gap:16px}.nav a{color:#64748b}.nav a:hover{color:#111827}
-.wrap{max-width:1080px;margin:0 auto;padding:42px 24px 90px}.paper{background:var(--paper);border:1px solid var(--line);box-shadow:0 24px 70px rgba(15,23,42,.07);border-radius:8px}.cover{min-height:calc(100vh - 110px);display:grid;grid-template-rows:auto 1fr;overflow:hidden}.cover-head{background:linear-gradient(135deg,#243247,#3a506b);color:white;padding:68px 72px 54px}.eyebrow{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#cbd5e1;font-weight:720}.cover h1{font-size:56px;line-height:1.12;letter-spacing:-.055em;margin:26px 0 22px;font-weight:760}.cover .subtitle{font-size:20px;line-height:1.72;color:#e5e7eb;max-width:790px}.cover-body{padding:40px 72px 52px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}.summary h2{margin:0 0 12px;font-size:22px}.summary p{margin:0;color:var(--body);font-size:17px}.meta-list{display:grid;gap:8px}.meta{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid #e5e7eb;padding:10px 0;font-size:15px}.meta b{color:#475569}.meta span{color:#111827}.toc{margin-top:20px;border-top:2px solid var(--deep);padding-top:16px}.toc-title{font-weight:760;margin-bottom:7px}.toc a{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #e5e7eb;color:#374151}.toc small{color:#6b7280}
-.section{margin-top:32px;padding:50px 64px}.section+.section{margin-top:24px}.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:760}.section h2{font-size:34px;line-height:1.28;letter-spacing:-.045em;margin:10px 0 16px;font-weight:740}.lead{font-size:18px;color:#374151;line-height:1.75;margin:0 0 24px}.section h3{font-size:22px;margin:30px 0 12px;letter-spacing:-.035em}.section p{font-size:16.5px;color:var(--body);margin:10px 0}.rule{height:1px;background:var(--line);margin:28px 0}.grid{display:grid;gap:16px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.box{border:1px solid var(--line);background:#fff;border-radius:6px;padding:20px}.box.gray{background:#f9fafb}.box h4{margin:0 0 9px;font-size:17px}.box p,.box li{font-size:15.5px;color:#4b5563;margin:0}.num{display:inline-block;font-size:12px;color:#475569;font-weight:760;margin-bottom:7px}.table{width:100%;border-collapse:collapse;margin:18px 0;background:#fff;border-top:2px solid var(--deep);border-bottom:1px solid var(--line)}.table th,.table td{padding:14px 15px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top;font-size:15px}.table th{background:#f6f7f9;color:#374151;font-weight:720}.table td{color:#374151}.table td:first-child{font-weight:700;color:#1f2937;white-space:nowrap}.note{background:var(--note);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:20px 0}.note b{display:block;margin-bottom:7px;color:#243247}.note p{margin:0;color:#4b5563}.mentor{background:#f8fafc;border-left:4px solid var(--deep2);padding:16px 20px;margin:20px 0}.mentor b{display:block;color:#243247;margin-bottom:6px}.mentor p{margin:0;color:#4b5563;font-size:15.5px}.field{height:50px;border:1px dashed #c4ccd8;background:var(--field);border-radius:6px}.field.long{height:92px}.code{background:#1f2937;color:#e5e7eb;border-radius:6px;padding:20px 22px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:13.5px;line-height:1.65;white-space:pre-wrap;overflow:auto;margin:16px 0}.plain-list{padding-left:20px}.plain-list li{margin:7px 0;color:#374151}.checklist{display:grid;gap:0;margin-top:14px;border-top:1px solid #e5e7eb}.check{border-bottom:1px solid #e5e7eb;padding:10px 0;color:#374151;font-size:15.5px}.footer{max-width:1080px;margin:0 auto;padding:34px 24px 56px;color:#6b7280;font-size:14px;text-align:center}.page-break{page-break-before:always}
-@media(max-width:860px){.nav{display:none}.cover-body,.two,.three{grid-template-columns:1fr}.cover-head,.cover-body,.section{padding:36px 26px}.cover h1{font-size:38px}.section h2{font-size:28px}}@media print{body{background:#fff}.topbar{display:none}.wrap{max-width:none;padding:0}.paper,.section{box-shadow:none;border-radius:0}.section{page-break-before:always;border:0}.cover{min-height:100vh;border:0}}
-</style>
+    :root{
+      --bg:#f6f8fb;
+      --paper:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --line:#e5eaf2;
+      --blue:#2563eb;
+      --blue2:#eef4ff;
+      --navy:#0f172a;
+      --soft:#f9fafb;
+      --green:#10b981;
+      --radius:28px;
+      --shadow:0 24px 70px rgba(15,23,42,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#f6f8fb 0%,#ffffff 100%);
+      color:var(--ink);
+      letter-spacing:-.03em;
+    }
+    .deck{
+      width:min(1180px, calc(100% - 40px));
+      margin:0 auto;
+      padding:38px 0 80px;
+    }
+    .topbar{
+      position:sticky;top:0;z-index:10;
+      backdrop-filter:blur(16px);
+      background:rgba(246,248,251,.82);
+      border-bottom:1px solid rgba(229,234,242,.8);
+    }
+    .topbar-inner{
+      width:min(1180px, calc(100% - 40px));
+      margin:0 auto;
+      height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      color:#475569;font-size:14px;font-weight:700;
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--blue);box-shadow:0 0 0 5px var(--blue2)}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .nav a{color:#64748b;text-decoration:none;padding:8px 10px;border-radius:999px}
+    .nav a:hover{background:#eef4ff;color:var(--blue)}
+    section.slide{
+      min-height:720px;
+      margin:34px 0;
+      padding:48px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    section.slide::after{
+      content:"";
+      position:absolute;right:-120px;top:-120px;width:320px;height:320px;
+      background:radial-gradient(circle,rgba(37,99,235,.13),rgba(37,99,235,0) 68%);
+      pointer-events:none;
+    }
+    .cover{
+      min-height:760px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:40px;
+      align-items:center;
+      background:linear-gradient(135deg,#ffffff 0%,#f8fbff 55%,#eef4ff 100%);
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      background:var(--blue2);color:var(--blue);
+      font-weight:800;font-size:13px;letter-spacing:.02em;
+    }
+    h1{font-size:68px;line-height:1.02;margin:22px 0 22px;letter-spacing:-.06em}
+    h2{font-size:48px;line-height:1.08;margin:14px 0 12px;letter-spacing:-.055em}
+    h3{font-size:24px;margin:0 0 14px;letter-spacing:-.045em}
+    p{font-size:19px;line-height:1.6;color:#475569;margin:0}
+    .lead{font-size:23px;line-height:1.55;color:#334155;font-weight:600}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+    .chip{
+      display:inline-flex;align-items:center;gap:7px;
+      background:#f1f5f9;border:1px solid #e2e8f0;
+      padding:10px 14px;border-radius:999px;
+      color:#334155;font-size:14px;font-weight:750;
+    }
+    .card{
+      background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;
+    }
+    .blue-card{background:#f5f8ff;border-color:#dbeafe}
+    .dark-card{background:#111827;color:#fff;border:0}
+    .dark-card p,.dark-card li{color:#cbd5e1}
+    .grid{display:grid;gap:18px}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .header{
+      display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:34px;
+    }
+    .page{font-size:14px;color:#94a3b8;font-weight:800}
+    .step{font-size:14px;color:var(--blue);font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+    .title-block{max-width:780px}
+    .tip{
+      display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:flex-start;
+      background:#f8fafc;border:1px solid #e2e8f0;border-radius:24px;padding:20px;margin-top:24px;
+    }
+    .tip-badge{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:900;
+    }
+    .tip strong{display:block;font-size:18px;margin-bottom:4px}
+    .tip span{display:block;color:#64748b;font-size:15px;line-height:1.5}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+    .flow .item{padding:24px;border-radius:24px;background:#f8fafc;border:1px solid #e2e8f0}
+    .num{font-size:13px;color:var(--blue);font-weight:900;margin-bottom:18px}
+    .item b{display:block;font-size:22px;margin-bottom:8px}
+    .item small{font-size:15px;color:#64748b;line-height:1.5}
+    table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#fff}
+    th,td{padding:18px 20px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:16px;line-height:1.45}
+    th{background:#f8fafc;color:#475569;font-size:14px}
+    tr:last-child td{border-bottom:0}
+    td:first-child{font-weight:800;color:#0f172a}
+    .answer-box{
+      min-height:58px;border:1px dashed #cbd5e1;border-radius:16px;background:#fbfdff;
+    }
+    pre{
+      margin:0;
+      background:#0f172a;color:#dbeafe;
+      border-radius:24px;padding:26px;
+      font-family:"SF Mono","Menlo","Consolas",monospace;
+      font-size:15px;line-height:1.65;letter-spacing:-.02em;
+      white-space:pre-wrap;
+    }
+    .folder-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
+    .mini-label{font-size:13px;font-weight:900;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+    .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .check{display:flex;gap:10px;align-items:flex-start;background:#f8fafc;border:1px solid #e2e8f0;padding:15px;border-radius:16px;font-size:16px;color:#334155;font-weight:650}
+    .box{width:18px;height:18px;border-radius:5px;border:2px solid #cbd5e1;margin-top:1px;background:white;flex:0 0 auto}
+    .code-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .pill-blue{background:var(--blue);color:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}
+    .quote{
+      font-size:32px;line-height:1.35;font-weight:850;letter-spacing:-.055em;
+      color:#0f172a;
+    }
+    .muted{color:#64748b}
+    .safe-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .goodbad{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+    .taglist{display:flex;gap:10px;flex-wrap:wrap}
+    .tag{padding:10px 12px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-weight:800;font-size:14px}
+    .final-banner{
+      margin-top:30px;background:#0f172a;color:#fff;border-radius:28px;padding:32px;
+      display:flex;justify-content:space-between;gap:30px;align-items:center;
+    }
+    .final-banner p{color:#cbd5e1}
+    .footer-note{
+      position:absolute;left:48px;right:48px;bottom:28px;
+      display:flex;justify-content:space-between;color:#94a3b8;font-size:13px;font-weight:700;
+    }
+
+
+    /* Horizontal full-page slide mode */
+    html, body{height:100%; overflow:hidden;}
+    body{background:#f6f8fb;}
+    .topbar{
+      position:fixed;
+      top:0;left:0;right:0;
+      z-index:60;
+      background:rgba(246,248,251,.72);
+    }
+    .topbar-inner{height:58px;}
+    .deck{
+      width:100vw;
+      height:100vh;
+      margin:0;
+      padding:0;
+      display:flex;
+      gap:0;
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+    }
+    .deck::-webkit-scrollbar{display:none;}
+    .slide-page{
+      flex:0 0 100vw;
+      width:100vw;
+      height:100vh;
+      padding:72px 40px 70px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+    }
+    section.slide{
+      width:min(1200px, calc(100vw - 80px), calc((100vh - 142px) * 16 / 9));
+      height:min(675px, calc(100vh - 142px), calc((100vw - 80px) * 9 / 16));
+      aspect-ratio:16 / 9;
+      min-height:0;
+      margin:0;
+      padding:42px 50px 44px;
+      border-radius:30px;
+      border:1px solid rgba(226,232,240,.95);
+      box-shadow:0 28px 80px rgba(15,23,42,.12);
+      overflow:hidden;
+      background:var(--paper);
+    }
+    .cover{
+      min-height:0;
+      grid-template-columns:1.02fr .98fr;
+      gap:46px;
+    }
+    section.slide::after{right:-90px;top:-90px;width:300px;height:300px;}
+    h1{font-size:clamp(38px,4.2vw,58px);line-height:1.02;margin:14px 0 16px;}
+    h2{font-size:clamp(30px,3.2vw,44px);line-height:1.08;margin:8px 0 10px;}
+    h3{font-size:22px;margin:0 0 12px;}
+    p{font-size:16px;line-height:1.46;}
+    .lead{font-size:19px;line-height:1.42;}
+    .header{margin-bottom:18px;}
+    .card{padding:16px 18px;border-radius:20px;}
+    .flow{margin-top:28px;}
+    .flow .item{padding:22px;}
+    .item b{font-size:21px;}
+    .item small{font-size:14px;}
+    .tip{padding:16px;margin-top:18px;border-radius:22px;}
+    .tip strong{font-size:17px;}
+    .tip span{font-size:14px;line-height:1.42;}
+    table{border-radius:20px;}
+    th,td{padding:10px 13px;font-size:13px;line-height:1.34;}
+    th{font-size:13px;}
+    .answer-box{min-height:44px;}
+    pre{
+      border-radius:20px;
+      padding:16px 18px;
+      font-size:12px;
+      line-height:1.36;
+      max-height:100%;
+      overflow:hidden;
+    }
+    .folder-wrap{gap:18px;}
+    .checklist{gap:10px;}
+    .check{padding:12px 13px;border-radius:14px;font-size:15px;}
+    .quote{font-size:28px;line-height:1.32;}
+    .meta{margin-top:22px;}
+    .chip{padding:9px 12px;font-size:13px;}
+    .final-banner{margin-top:22px;padding:24px;border-radius:24px;}
+    .footer-note{left:50px;right:50px;bottom:20px;}
+    .slide-controls{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      z-index:70;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 10px;
+      border:1px solid rgba(226,232,240,.9);
+      border-radius:999px;
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(16px);
+      box-shadow:0 18px 45px rgba(15,23,42,.12);
+    }
+    .slide-controls button{
+      border:0;
+      border-radius:999px;
+      height:36px;
+      padding:0 15px;
+      background:#0f172a;
+      color:#fff;
+      font-weight:850;
+      cursor:pointer;
+      letter-spacing:-.03em;
+    }
+    .slide-controls button:hover{background:#2563eb;}
+    .slide-controls .counter{
+      min-width:58px;
+      text-align:center;
+      color:#475569;
+      font-size:14px;
+      font-weight:850;
+    }
+    .slide-controls .hint{
+      color:#94a3b8;
+      font-size:12px;
+      font-weight:800;
+      padding-right:8px;
+    }
+
+
+    /* Page 10: command slide compact fit */
+    .command-slide{padding-top:34px;padding-bottom:34px;}
+    .command-slide .header{margin-bottom:12px;}
+    .command-slide h2{font-size:38px;margin-bottom:6px;}
+    .command-slide .title-block p{font-size:15px;line-height:1.35;}
+    .command-slide pre{font-size:11.2px;line-height:1.22;padding:14px 16px;border-radius:18px;}
+    .command-slide .tip{margin-top:12px;padding:12px 14px;border-radius:18px;gap:12px;}
+    .command-slide .tip-badge{width:34px;height:34px;border-radius:12px;font-size:12px;}
+    .command-slide .tip strong{font-size:15px;margin-bottom:2px;}
+    .command-slide .tip span{font-size:12.5px;line-height:1.34;}
+
+    @media print{
+      html, body{height:auto;overflow:visible}
+      body{background:#fff}
+      .topbar{display:none}
+      .deck{width:100%;height:auto;padding:0;display:block;overflow:visible}
+      .slide-page{display:block;width:100%;height:auto;padding:0;page-break-after:always}
+      section.slide{width:100%;height:auto;aspect-ratio:auto;box-shadow:none;border-radius:0;margin:0;min-height:100vh;page-break-after:always;border:0;overflow:visible}
+    }
+    @media(max-width:900px){
+      .slide-page{padding:64px 14px 64px}
+      section.slide{padding:24px;min-height:0}
+      .cover,.grid-2,.grid-3,.grid-4,.folder-wrap,.safe-grid,.goodbad,.checklist{grid-template-columns:1fr}
+      h1{font-size:46px}h2{font-size:36px}.flow{grid-template-columns:1fr}
+      .nav{display:none}
+    }
+  </style>
 </head>
 <body>
-<header class="topbar"><div class="inner"><div class="brand">AI Project Folder v1 Workshop</div><nav class="nav"><a href="#goal">목표</a><a href="#step1">업무 선정</a><a href="#step2">구조화</a><a href="#folder">폴더</a><a href="#skill">Skill</a><a href="#final">점검</a></nav></div></header>
-<main class="wrap">
-<section class="cover paper">
-  <div class="cover-head">
-    <div class="eyebrow">Workshop Material</div>
-    <h1>내 업무용<br>AI 프로젝트 폴더 v1<br>만들기</h1>
-    <p class="subtitle">반복 업무 하나를 골라 AI가 이해하고 실행할 수 있는 업무 구조 초안을 만드는 실습자료입니다. 완성된 자동화보다 먼저 자료, 기준, 결과물, 실행 절차를 분리하는 데 집중합니다.</p>
-  </div>
-  <div class="cover-body">
-    <div class="summary">
-      <h2>오늘 만들 것</h2>
-      <p>완성된 자동화 프로그램이 아니라, AI에게 업무를 인수인계할 수 있는 최소 구조입니다. 각 단계의 빈칸을 채우면 마지막에 하나의 프로젝트 폴더 초안이 완성됩니다.</p>
-      <div class="toc">
-        <div class="toc-title">실습 순서</div>
-        <a href="#goal"><span>01. 실습 목표 확인</span><small>p.01</small></a>
-        <a href="#concept"><span>02. 개념과 산출물 연결</span><small>p.02</small></a>
-        <a href="#step1"><span>03. 반복 업무 선정</span><small>p.03</small></a>
-        <a href="#step2"><span>04. Input, Check, Output</span><small>p.04</small></a>
-        <a href="#folder"><span>05. 프로젝트 폴더 v1</span><small>p.05</small></a>
-        <a href="#skill"><span>06. 첫 번째 Skill 설계</span><small>p.06</small></a>
-      </div>
-    </div>
-    <div class="meta-list">
-      <div class="meta"><b>대상</b><span>행정직 실무자 20명</span></div>
-      <div class="meta"><b>시간</b><span>약 60분 멘토링 실습</span></div>
-      <div class="meta"><b>방식</b><span>개인 작성 후 팀 피드백</span></div>
-      <div class="meta"><b>기준</b><span>완성도보다 구조 설계</span></div>
-      <div class="meta"><b>최종 산출물</b><span>폴더 구조 v1, CLAUDE.md 초안, command 초안</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="goal" class="section paper">
-  <div class="label">01. Workshop Goal</div>
-  <h2>오늘 멘토링의 목표</h2>
-  <p class="lead">자동화 프로그램을 완성하는 시간이 아니라, 반복 업무 하나를 AI가 일할 수 있는 폴더와 Skill 초안으로 바꾸는 시간입니다.</p>
-  <table class="table"><thead><tr><th>시간</th><th>파트</th><th>목표</th><th>산출물</th></tr></thead><tbody>
-    <tr><td>0~5분</td><td>오리엔테이션</td><td>오늘 만들 산출물 이해</td><td>실습 목표 확인</td></tr>
-    <tr><td>5~15분</td><td>업무 선정</td><td>반복 업무 1개로 좁히기</td><td>업무명과 문제 정의</td></tr>
-    <tr><td>15~30분</td><td>폴더 설계</td><td>data, reference, output 구조 잡기</td><td>프로젝트 폴더 v1</td></tr>
-    <tr><td>30~45분</td><td>Skill 설계</td><td>첫 command 파일 초안 만들기</td><td>Skill 이름과 처리 단계</td></tr>
-    <tr><td>45~60분</td><td>피드백과 공유</td><td>위험도와 검수 지점 점검</td><td>보완 포인트</td></tr>
-  </tbody></table>
-  <div class="mentor"><b>MENTOR TIP</b><p>자동화보다 구조가 먼저입니다. AI에게 일을 맡기려면 사람이 하던 업무를 설명 가능한 구조로 바꿔야 합니다.</p></div>
-</section>
-
-<section id="concept" class="section paper">
-  <div class="label">02. Concept Mapping</div>
-  <h2>강의 개념과 실습 산출물 연결</h2>
-  <p class="lead">강의에서 배운 Input, Check, Output, Command 개념을 실제 프로젝트 폴더로 옮깁니다.</p>
-  <table class="table"><thead><tr><th>강의 개념</th><th>실습 산출물</th><th>파일 또는 폴더</th></tr></thead><tbody>
-    <tr><td>Input</td><td>AI가 읽을 원본 자료 정의</td><td>data</td></tr>
-    <tr><td>Check</td><td>AI가 따라야 할 기준, 양식, 원칙</td><td>CLAUDE.md, reference</td></tr>
-    <tr><td>Output</td><td>AI가 남길 결과물 구조</td><td>output</td></tr>
-    <tr><td>Repeat</td><td>반복 실행할 업무 절차</td><td>.claude commands</td></tr>
-    <tr><td>Human Check</td><td>사람이 확인할 지점</td><td>CLAUDE.md, command 검수 단계</td></tr>
-  </tbody></table>
-  <div class="note"><b>폴더 설계란?</b><p>AI가 일할 때 필요한 자료, 기준, 결과물, 실행 절차의 위치를 정하는 일입니다. 단순 정리가 아니라 AI에게 업무 환경을 만들어주는 과정입니다.</p></div>
-  <div class="mentor"><b>MENTOR TIP</b><p>잘해줘는 기준이 아닙니다. 무엇을 보고, 어떤 기준으로, 어떤 형식의 결과물을 만들지 분리해야 반복 가능한 업무가 됩니다.</p></div>
-</section>
-
-<section id="step1" class="section paper">
-  <div class="label">03. Step 1</div>
-  <h2>반복 업무 1개 고르기</h2>
-  <p class="lead">처음부터 팀 전체 업무를 잡지 않습니다. 반복되고, 자료가 남아 있고, 결과물이 명확한 업무 1개를 고릅니다.</p>
-  <table class="table"><thead><tr><th>작성 질문</th><th>내 답변</th></tr></thead><tbody>
-    <tr><td>Q1. 내가 자주 반복하는 업무는?</td><td><div class="field"></div></td></tr>
-    <tr><td>Q2. 가장 시간이 많이 걸리는 지점은?</td><td><div class="field"></div></td></tr>
-    <tr><td>Q3. 반복될 때 생기는 문제는?</td><td><div class="field"></div></td></tr>
-    <tr><td>Q4. AI 초안을 사람이 검토 가능한가?</td><td><div class="field"></div></td></tr>
-  </tbody></table>
-  <div class="grid two">
-    <div class="box gray"><h4>좋은 주제 예시</h4><ul class="plain-list"><li>회의록 정리</li><li>주간보고 취합</li><li>문의 응대 초안</li><li>사업공고 요약</li><li>멘티 과제 피드백 작성</li></ul></div>
-    <div class="box gray"><h4>멘토 질문</h4><ul class="plain-list"><li>이 업무는 한 달에 몇 번 반복되나요?</li><li>자료가 이미 존재하나요?</li><li>결과물이 명확한가요?</li><li>AI가 만든 초안을 사람이 검토할 수 있나요?</li></ul></div>
-  </div>
-  <div class="mentor"><b>MENTOR TIP</b><p>크게 잡으면 실패합니다. 팀 전체보다 반복 업무 1개부터 시작하는 것이 좋습니다.</p></div>
-</section>
-
-<section id="step2" class="section paper">
-  <div class="label">04. Step 2</div>
-  <h2>Input, Check, Output 뽑기</h2>
-  <p class="lead">폴더를 만들기 전에 업무를 4개 요소로 나눕니다. 이 표가 이후 폴더 구조의 설계도가 됩니다.</p>
-  <table class="table"><thead><tr><th>구분</th><th>질문</th><th>내 업무 기준 작성</th></tr></thead><tbody>
-    <tr><td>Input</td><td>AI가 읽어야 할 자료는?</td><td><div class="field"></div></td></tr>
-    <tr><td>Check</td><td>AI가 따라야 할 기준은?</td><td><div class="field"></div></td></tr>
-    <tr><td>Output</td><td>AI가 만들어야 할 결과물은?</td><td><div class="field"></div></td></tr>
-    <tr><td>Human Check</td><td>사람이 확인할 부분은?</td><td><div class="field"></div></td></tr>
-  </tbody></table>
-  <table class="table"><thead><tr><th>구분</th><th>예시</th></tr></thead><tbody>
-    <tr><td>Input</td><td>회의 녹취록, 회의 메모, 지난 회의록</td></tr>
-    <tr><td>Check</td><td>회의록 양식, 액션아이템 정리 기준, 외부 공유 금지 기준</td></tr>
-    <tr><td>Output</td><td>회의록 초안, 담당자와 기한 표, 공유 메일 초안</td></tr>
-    <tr><td>Human Check</td><td>결정사항 사실 여부, 담당자 누락, 민감정보 포함 여부</td></tr>
-  </tbody></table>
-  <div class="mentor"><b>MENTOR TIP</b><p>도구보다 문제가 먼저입니다. 시간이 오래 걸리는 지점, 기준이 흔들리는 지점, 같은 설명을 반복하는 지점이 좋은 후보입니다.</p></div>
-</section>
-
-<section id="folder" class="section paper">
-  <div class="label">05. Step 3</div>
-  <h2>프로젝트 폴더 구조 만들기</h2>
-  <p class="lead">폴더 구조는 AI가 어디서 자료를 읽고 어떤 기준을 보고 어디에 결과물을 남길지 알게 만드는 업무 배치입니다.</p>
-  <div class="code">project-name/
+<div class="topbar">
+<div class="topbar-inner">
+<div class="brand"><span class="dot"></span> MENTORING WORKBOOK</div>
+<div class="nav">
+<a href="#s1">Goal</a><a href="#s3">Step</a><a href="#s6">Folder</a><a href="#s10">Command</a><a href="#s12">Final</a>
+</div>
+</div>
+</div>
+<main class="deck">
+<div class="slide-page"><section class="slide cover" id="s0">
+<div>
+<span class="eyebrow">MENTORING WORKBOOK</span>
+<h1>내 업무를<br/>Claude Code 폴더와<br/><span style="color:var(--blue)">Skill</span>로 설계하기</h1>
+<p class="lead">AI 코치 결과 리포트를 바탕으로 Input / Check / Output / Command 구조를 직접 설계하는 멘토링 실습자료</p>
+<div class="meta">
+<span class="chip">프로젝트 폴더 구조 v1</span>
+<span class="chip">CLAUDE.md 초안</span>
+<span class="chip">첫 command / skill 파일 초안</span>
+</div>
+</div>
+<div class="card dark-card">
+<div class="mini-label" style="color:#93c5fd">Core Message</div>
+<div class="quote" style="color:#fff">AI에게 답변을 받는 시간이 아니라,<br/>AI가 반복해서 일할 수 있는 업무 환경을 설계하는 시간입니다.</div>
+<div style="height:22px"></div>
+<pre>project-name/
+├── CLAUDE.md
+├── data/
+├── reference/
+├── output/
+└── .claude/commands/</pre>
+</div>
+<div class="footer-note"><span>이유진 · Product Manager / AX Consultant</span><span>01</span></div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s1">
+<div class="header"><div class="title-block"><div class="step">Today Goal</div><h2>오늘 멘토링의 목표</h2><p class="lead">반복 업무 하나를 AI가 일할 수 있는 폴더와 Skill 초안으로 바꿉니다.</p></div><div class="page">02</div></div>
+<div class="flow">
+<div class="item"><div class="num">STEP 1</div><b>반복 업무 1개</b><small>작고 반복되는 업무 선택</small></div>
+<div class="item"><div class="num">STEP 2</div><b>폴더 구조 v1</b><small>data / reference / output 배치</small></div>
+<div class="item"><div class="num">STEP 3</div><b>CLAUDE.md</b><small>역할 / 원칙 / 금지사항 고정</small></div>
+<div class="item"><div class="num">STEP 4</div><b>첫 Skill</b><small>반복 실행 절차 초안</small></div>
+</div>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>자동화보다 구조</strong><span>완성보다 인수인계서 먼저. AI에게 일을 맡기려면 사람이 하던 업무를 설명 가능한 구조로 바꿔야 합니다.</span></div></div>
+<div class="footer-note"><span>한국생산기술연구원 행정직 AI 실무 적용 특강</span><span>MENTORING WORKBOOK</span></div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s2">
+<div class="header"><div class="title-block"><div class="step">Connection</div><h2>강의 개념과 실습 산출물 연결</h2><p>강의에서 배운 Input / Check / Output / Command 개념을 실제 프로젝트 폴더로 옮깁니다.</p></div><div class="page">03</div></div>
+<table>
+<thead><tr><th>강의 개념</th><th>실습 산출물</th><th>파일/폴더</th></tr></thead>
+<tbody>
+<tr><td>Input</td><td>AI가 읽을 원본 자료 정의</td><td><b>data/</b></td></tr>
+<tr><td>Check</td><td>AI가 따라야 할 기준 / 양식 / 원칙</td><td><b>CLAUDE.md + reference/</b></td></tr>
+<tr><td>Output</td><td>AI가 남길 결과물 구조</td><td><b>output/</b></td></tr>
+<tr><td>Repeat</td><td>반복 실행할 업무 절차</td><td><b>.claude/commands/</b></td></tr>
+<tr><td>Human Check</td><td>사람이 확인할 지점</td><td><b>CLAUDE.md + command 검수 단계</b></td></tr>
+</tbody>
+</table>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>잘해줘는 기준 아님</strong><span>결과물을 반복해서 만들게 하려면 무엇을 보고, 어떤 기준으로, 어떤 형식으로 만들지 분리해야 합니다.</span></div></div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s3">
+<div class="header"><div class="title-block"><div class="step">Step 1</div><h2>반복 업무 1개 고르기</h2><p>반복되고, 자료가 남아 있고, 결과물이 명확한 업무 1개를 고릅니다.</p></div><div class="page">04</div></div>
+<div class="grid grid-2">
+<div class="card blue-card">
+<h3>작성 질문</h3>
+<table>
+<tbody>
+<tr><td>Q1. 내가 자주 반복하는 업무는?</td><td><div class="answer-box"></div></td></tr>
+<tr><td>Q2. 가장 시간이 많이 걸리는 지점은?</td><td><div class="answer-box"></div></td></tr>
+<tr><td>Q3. 반복될 때 생기는 문제는?</td><td><div class="answer-box"></div></td></tr>
+<tr><td>Q4. AI 초안을 사람이 검토 가능한가?</td><td><div class="answer-box"></div></td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+<h3>멘토 질문</h3>
+<div class="checklist" style="grid-template-columns:1fr">
+<div class="check"><span class="box"></span>이 업무는 몇 번 반복되나요?</div>
+<div class="check"><span class="box"></span>자료가 이미 존재하나요?</div>
+<div class="check"><span class="box"></span>결과물이 명확한가요?</div>
+<div class="check"><span class="box"></span>AI 초안을 사람이 검토할 수 있나요?</div>
+</div>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>크게 잡으면 실패</strong><span>팀 전체보다 반복 업무 1개. 회의록 정리, 주간보고 취합, 문의 응대 초안처럼 작고 반복되는 업무부터 시작합니다.</span></div></div>
+</div>
+</div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s4">
+<div class="header"><div class="title-block"><div class="step">Step 2</div><h2>Input / Check / Output 뽑기</h2><p>폴더를 만들기 전에 업무를 4개 요소로 나눕니다.</p></div><div class="page">05</div></div>
+<table>
+<thead><tr><th>구분</th><th>질문</th><th>내 업무 기준 작성</th></tr></thead>
+<tbody>
+<tr><td>Input</td><td>AI가 읽어야 할 자료는?</td><td><div class="answer-box"></div></td></tr>
+<tr><td>Check</td><td>AI가 따라야 할 기준은?</td><td><div class="answer-box"></div></td></tr>
+<tr><td>Output</td><td>AI가 만들어야 할 결과물은?</td><td><div class="answer-box"></div></td></tr>
+<tr><td>Human Check</td><td>사람이 확인할 부분은?</td><td><div class="answer-box"></div></td></tr>
+</tbody>
+</table>
+<div class="grid grid-2" style="margin-top:22px">
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>도구보다 문제</strong><span>시간이 오래 걸리는 지점, 기준이 흔들리는 지점, 같은 설명을 반복하는 지점이 좋은 후보입니다.</span></div></div>
+<div class="card">
+<h3>예시</h3>
+<p><b>Input</b> 회의 녹취록, 회의 메모, 지난 회의록<br/><b>Check</b> 회의록 양식, 액션아이템 기준, 외부 공유 금지 기준<br/><b>Output</b> 회의록 초안, 담당자/기한 표, 공유 메일 초안<br/><b>Human Check</b> 결정사항 사실 여부, 담당자 누락, 민감정보 포함 여부</p>
+</div>
+</div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s5">
+<div class="header"><div class="title-block"><div class="step">Step 3</div><h2>프로젝트 폴더 구조 만들기</h2><p>AI가 어디서 자료를 읽고 어디에 결과물을 남길지 알게 만드는 업무 배치입니다.</p></div><div class="page">06</div></div>
+<div class="folder-wrap">
+<div>
+<div class="code-title"><span class="mini-label">Basic Structure</span><span class="pill-blue">기본 구조</span></div>
+<pre>project-name/
 ├── CLAUDE.md
 ├── data/
 ├── reference/
 ├── output/
 └── .claude/
-    └── commands/</div>
-  <h3>내 폴더 구조 v1</h3>
-  <div class="code">내_프로젝트명/
+    └── commands/</pre>
+</div>
+<div>
+<div class="code-title"><span class="mini-label">My Project</span><span class="pill-blue">작성 영역</span></div>
+<pre>내_프로젝트명/
 ├── CLAUDE.md
 ├── data/
 │   ├── __________________
@@ -140,19 +458,16 @@
 ├── output/
 │   ├── __________________
 │   └── __________________
-└── .claude/commands/__________________.md</div>
-  <table class="table"><thead><tr><th>폴더</th><th>넣는 것</th><th>주의할 점</th></tr></thead><tbody>
-    <tr><td>data</td><td>회의 메모, 공고문, 평가서, 문의 내역</td><td>기준서와 섞지 않습니다.</td></tr>
-    <tr><td>reference</td><td>양식, 기준표, 체크리스트, 금지 표현</td><td>사람의 암묵지를 문서로 바꿉니다.</td></tr>
-    <tr><td>output</td><td>초안, 최종본, 검토 체크리스트</td><td>다음 업무의 샘플로 재사용합니다.</td></tr>
-  </tbody></table>
-</section>
-
-<section id="claude" class="section paper">
-  <div class="label">06. Step 4</div>
-  <h2>CLAUDE.md 초안 만들기</h2>
-  <p class="lead">CLAUDE.md는 AI에게 주는 업무 인수인계서입니다. 프로젝트 전체의 역할, 원칙, 금지사항, 출력 방식을 고정합니다.</p>
-  <div class="code"># [프로젝트 이름]
+└── .claude/commands/
+    └── __________________.md</pre>
+</div>
+</div>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>data는 원본 보관함</strong><span>data/에는 AI가 실제로 읽어야 하는 자료를 넣습니다. 판단 기준이나 작성 양식은 reference/로 분리합니다.</span></div></div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s6">
+<div class="header"><div class="title-block"><div class="step">Step 4</div><h2>CLAUDE.md 초안 만들기</h2><p>프로젝트 전체의 역할, 원칙, 금지사항, 출력 방식을 고정합니다.</p></div><div class="page">07</div></div>
+<div class="grid grid-2">
+<pre># [프로젝트 이름]
 
 ## 역할
 너는 [업무명]을 보조하는 AI 업무 동료다.
@@ -169,38 +484,77 @@
 ## 사람 검수 지점
 - 사실관계
 - 수치
-- 개인정보 또는 민감정보
-- 외부 발송 여부</div>
-  <table class="table"><thead><tr><th>작성 항목</th><th>내 초안</th></tr></thead><tbody>
-    <tr><td>AI의 역할</td><td><div class="field"></div></td></tr>
-    <tr><td>업무 목표</td><td><div class="field"></div></td></tr>
-    <tr><td>AI가 반드시 지켜야 할 원칙 3개</td><td><div class="field long"></div></td></tr>
-  </tbody></table>
-  <div class="mentor"><b>MENTOR TIP</b><p>CLAUDE.md는 직무기술서에 가깝습니다. 역할, 원칙, 금지사항이 고정되어야 AI가 같은 기준으로 일할 수 있습니다.</p></div>
-</section>
-
-<section id="skill" class="section paper">
-  <div class="label">07. Step 5</div>
-  <h2>첫 번째 Skill 고르기</h2>
-  <p class="lead">처음부터 전체 업무를 자동화하지 않습니다. 첫 번째 Skill은 가치가 크면서도 사람이 안전하게 검수할 수 있는 업무부터 고릅니다.</p>
-  <table class="table"><thead><tr><th>선정 기준</th><th>확인 질문</th><th>내 판단</th></tr></thead><tbody>
-    <tr><td>반복성</td><td>자주 반복되는가?</td><td><div class="field"></div></td></tr>
-    <tr><td>시간 절감</td><td>시간이 많이 드는가?</td><td><div class="field"></div></td></tr>
-    <tr><td>자료 준비도</td><td>AI가 읽을 자료가 있는가?</td><td><div class="field"></div></td></tr>
-    <tr><td>기준 명확성</td><td>판단 기준을 문서로 쓸 수 있는가?</td><td><div class="field"></div></td></tr>
-    <tr><td>안전성</td><td>사람이 검수하기 쉬운가?</td><td><div class="field"></div></td></tr>
-  </tbody></table>
-  <div class="grid two">
-    <div class="box gray"><h4>첫 Skill 추천</h4><ul class="plain-list"><li>자료 요약</li><li>분류</li><li>초안 작성</li><li>체크리스트 생성</li><li>누락 탐지</li></ul></div>
-    <div class="box gray"><h4>첫 Skill 비추천</h4><ul class="plain-list"><li>최종 발송</li><li>외부 고객 자동 응대</li><li>합격 또는 불합격 판단</li><li>예산 승인</li><li>법적 판단</li></ul></div>
-  </div>
-</section>
-
-<section id="command" class="section paper">
-  <div class="label">08. Step 6</div>
-  <h2>command 파일 초안 만들기</h2>
-  <p class="lead">command는 긴 프롬프트를 저장하는 파일이 아닙니다. 반복 업무의 실행 절차를 저장하는 파일입니다.</p>
-  <div class="code"># [skill-name]
+- 개인정보/민감정보
+- 외부 발송 여부</pre>
+<div class="card blue-card">
+<h3>멘토 질문</h3>
+<div class="checklist" style="grid-template-columns:1fr">
+<div class="check"><span class="box"></span>이 업무를 신입에게 맡긴다면 반드시 알려줄 기준은?</div>
+<div class="check"><span class="box"></span>결과물이 좋다/나쁘다를 판단하는 기준은?</div>
+<div class="check"><span class="box"></span>AI가 절대 하면 안 되는 행동은?</div>
+<div class="check"><span class="box"></span>최종 판단은 누가 해야 하나요?</div>
+</div>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>CLAUDE.md는 직무기술서</strong><span>AI가 프로젝트 안에서 같은 기준으로 일할 수 있도록 역할과 업무 원칙을 명시합니다.</span></div></div>
+</div>
+</div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s7">
+<div class="header"><div class="title-block"><div class="step">Step 5</div><h2>reference/와 output/ 설계하기</h2><p>reference/에는 판단 기준과 양식을, output/에는 AI가 만든 결과물을 쌓습니다.</p></div><div class="page">08</div></div>
+<table>
+<thead><tr><th>폴더</th><th>들어갈 내용</th><th>예시</th></tr></thead>
+<tbody>
+<tr><td>reference/</td><td>판단 기준, 양식, 체크리스트</td><td>report-format.md, tone-guide.md, criteria.md</td></tr>
+<tr><td>output/</td><td>초안, 최종본, 검토 결과</td><td>drafts/, final/, review-checklists/</td></tr>
+</tbody>
+</table>
+<div class="folder-wrap" style="margin-top:24px">
+<pre>reference/
+├── __________________.md
+├── __________________.md
+└── __________________.md</pre>
+<pre>output/
+├── __________________/
+├── __________________/
+└── __________________/</pre>
+</div>
+<div class="grid grid-2" style="margin-top:22px">
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>기준은 reference로</strong><span>사람에게는 당연한 기준도 AI에게는 명시해야 결과물 편차를 줄일 수 있습니다.</span></div></div>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>output은 업무 자산</strong><span>잘 정리된 output은 다음 유사 업무를 처리할 때 샘플이 되고 개선 기준이 됩니다.</span></div></div>
+</div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s8">
+<div class="header"><div class="title-block"><div class="step">Step 6</div><h2>첫 번째 Skill 고르기</h2><p>첫 Skill은 가치가 크면서도 사람이 안전하게 검수할 수 있는 업무부터 고릅니다.</p></div><div class="page">09</div></div>
+<div class="grid grid-2">
+<table>
+<thead><tr><th>선정 기준</th><th>질문</th></tr></thead>
+<tbody>
+<tr><td>반복성</td><td>자주 반복되는가?</td></tr>
+<tr><td>시간 절감</td><td>시간이 많이 드는가?</td></tr>
+<tr><td>자료 준비도</td><td>AI가 읽을 자료가 있는가?</td></tr>
+<tr><td>기준 명확성</td><td>판단 기준을 문서로 쓸 수 있는가?</td></tr>
+<tr><td>안전성</td><td>사람이 검수하기 쉬운가?</td></tr>
+</tbody>
+</table>
+<div class="card">
+<h3>후보 Skill</h3>
+<table>
+<tbody>
+<tr><td>후보 1</td><td><div class="answer-box"></div></td></tr>
+<tr><td>후보 2</td><td><div class="answer-box"></div></td></tr>
+<tr><td>후보 3</td><td><div class="answer-box"></div></td></tr>
+<tr><td>첫 번째 Skill</td><td><div class="answer-box"></div></td></tr>
+</tbody>
+</table>
+<div class="taglist" style="margin-top:16px">
+<span class="tag">자료 요약</span><span class="tag">분류</span><span class="tag">초안 작성</span><span class="tag">체크리스트</span><span class="tag">누락 탐지</span>
+</div>
+</div>
+</div>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>처음부터 끝까지 금지</strong><span>외부 발송, 최종 판단, 승인 업무는 첫 Skill로 적합하지 않습니다. 초안 / 분류 / 검토부터 시작합니다.</span></div></div>
+</section></div>
+<div class="slide-page"><section class="slide command-slide" id="s9">
+<div class="header"><div class="title-block"><div class="step">Step 7</div><h2>command 파일 초안 만들기</h2><p>command는 긴 프롬프트가 아니라 반복 업무의 실행 절차입니다.</p></div><div class="page">10</div></div>
+<pre># [skill-name]
 
 ## 설명
 [이 Skill이 처리하는 반복 업무를 한 줄로 설명합니다.]
@@ -222,16 +576,28 @@
 ## 사람 확인 필요
 - 사실관계
 - 수치
-- 개인정보 또는 민감정보
-- 최종 발송 여부</div>
-  <div class="mentor"><b>MENTOR TIP</b><p>command는 업무 레시피입니다. 어떤 자료를 읽고, 어떤 기준으로 판단하고, 어떤 순서로 처리하고, 어떤 형식으로 출력할지 적습니다.</p></div>
-</section>
-
-<section id="sample" class="section paper">
-  <div class="label">09. Sample</div>
-  <h2>샘플 완성본: 면접 평가 통합 도우미</h2>
-  <p class="lead">샘플 결과 리포트에서 도출된 폴더와 Skill 예시입니다. 교육생은 이 구조를 참고해 자신의 업무에 맞게 바꿉니다.</p>
-  <div class="code">면접_평가_통합_도우미/
+- 개인정보/민감정보
+- 최종 발송 여부</pre>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>command는 업무 레시피</strong><span>어떤 자료를 읽고, 어떤 기준으로 판단하고, 어떤 순서로 처리하고, 어디에 남길지 적습니다.</span></div></div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s10">
+<div class="header"><div class="title-block"><div class="step">Mentoring</div><h2>멘토 피드백 체크리스트</h2><p>멘토는 폴더가 실제 업무 실행으로 이어지는지 확인합니다.</p></div><div class="page">11</div></div>
+<table>
+<thead><tr><th>영역</th><th>체크포인트</th></tr></thead>
+<tbody>
+<tr><td>업무 범위</td><td>업무가 1개로 좁혀져 있는가?</td></tr>
+<tr><td>폴더 구조</td><td>data / reference / output / commands가 구분되어 있는가?</td></tr>
+<tr><td>CLAUDE.md</td><td>AI 역할, 목표, 금지사항, 사람 검수 지점이 있는가?</td></tr>
+<tr><td>Skill</td><td>입력 / 처리 단계 / 출력이 연결되는가?</td></tr>
+<tr><td>실무 적용성</td><td>실제 자료를 넣으면 바로 테스트할 수 있는가?</td></tr>
+</tbody>
+</table>
+<div class="tip"><div class="tip-badge">TIP</div><div><strong>좋은 구조는 바로 테스트</strong><span>폴더명과 Skill 이름이 그럴듯해도 실제 자료를 넣었을 때 무엇을 해야 할지 모르면 아직 구조가 부족한 상태입니다.</span></div></div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s11">
+<div class="header"><div class="title-block"><div class="step">Sample</div><h2>샘플 완성본: 면접 평가 통합 도우미</h2><p>샘플 결과 리포트에서 도출된 폴더와 Skill 예시입니다.</p></div><div class="page">12</div></div>
+<div class="folder-wrap">
+<pre>면접_평가_통합_도우미/
 ├── CLAUDE.md
 ├── data/
 │   ├── 평가서원본/
@@ -245,10 +611,8 @@
 ├── output/
 │   ├── 후보자카드/
 │   └── 검토체크리스트/
-└── .claude/
-    └── commands/
-        └── 평가서통합.md</div>
-  <div class="code"># 평가서통합
+└── .claude/commands/평가서통합.md</pre>
+<pre># 평가서통합
 
 ## 설명
 면접관별 평가서를 표준화하고 후보자별 통합 카드 초안을 작성한다.
@@ -263,33 +627,104 @@
 2. 후보자ID 기준으로 평가서를 묶는다.
 3. 점수와 코멘트를 표준 스키마에 맞춰 정리한다.
 4. 후보자별 강점 3개, 우려 3개, 총평 초안을 작성한다.
-5. 편향 표현과 누락 항목을 체크리스트로 표시한다.
-
-## 출력
-- output/후보자카드/
-- output/검토체크리스트/</div>
-</section>
-
-<section id="final" class="section paper">
-  <div class="label">10. Final Check</div>
-  <h2>실습 완료 체크리스트</h2>
-  <p class="lead">마지막으로 내 설계가 실제 실행 가능한 구조인지 확인합니다.</p>
-  <div class="checklist">
-    <div class="check">□ 반복 업무 1개를 골랐다</div>
-    <div class="check">□ 업무의 문제를 한 문장으로 정의했다</div>
-    <div class="check">□ Input, Check, Output을 나눴다</div>
-    <div class="check">□ 프로젝트 폴더 이름을 정했다</div>
-    <div class="check">□ data 폴더에 들어갈 자료를 정했다</div>
-    <div class="check">□ reference 폴더에 들어갈 기준을 정했다</div>
-    <div class="check">□ output 폴더에 쌓일 결과물을 정했다</div>
-    <div class="check">□ CLAUDE.md 초안을 작성했다</div>
-    <div class="check">□ 첫 번째 Skill을 골랐다</div>
-    <div class="check">□ command 파일 초안을 작성했다</div>
-    <div class="check">□ 사람이 검수해야 할 지점을 표시했다</div>
-  </div>
-  <div class="note"><b>마지막 한 문장</b><p>반복 업무는 자료, 기준, 결과물, 실행 레시피로 구조화할 수 있습니다. 중요한 것은 완벽한 자동화가 아니라 AI에게 인수인계 가능한 최소 구조를 만드는 것입니다.</p></div>
-</section>
+5. 편향 표현과 누락 항목을 체크리스트로 표시한다.</pre>
+</div>
+</section></div>
+<div class="slide-page"><section class="slide" id="s12">
+<div class="header"><div class="title-block"><div class="step">Final</div><h2>실습 완료 체크리스트</h2><p>마지막으로 내 설계가 실제 실행 가능한 구조인지 확인합니다.</p></div><div class="page">13</div></div>
+<div class="checklist">
+<div class="check"><span class="box"></span>반복 업무 1개를 골랐다</div>
+<div class="check"><span class="box"></span>업무의 문제를 한 문장으로 정의했다</div>
+<div class="check"><span class="box"></span>Input / Check / Output을 나눴다</div>
+<div class="check"><span class="box"></span>프로젝트 폴더 이름을 정했다</div>
+<div class="check"><span class="box"></span>data/ 폴더에 들어갈 자료를 정했다</div>
+<div class="check"><span class="box"></span>reference/ 폴더에 들어갈 기준을 정했다</div>
+<div class="check"><span class="box"></span>output/ 폴더에 쌓일 결과물을 정했다</div>
+<div class="check"><span class="box"></span>CLAUDE.md 초안을 작성했다</div>
+<div class="check"><span class="box"></span>첫 번째 Skill을 골랐다</div>
+<div class="check"><span class="box"></span>command 파일 초안을 작성했다</div>
+<div class="check"><span class="box"></span>사람이 검수해야 할 지점을 표시했다</div>
+</div>
+<div class="final-banner">
+<div><h3 style="font-size:30px;margin-bottom:10px">v1은 초안입니다</h3><p>처음부터 완벽한 폴더와 Skill을 만들 필요는 없습니다. 결과물을 보면서 기준과 절차를 계속 다듬습니다.</p></div>
+<span class="eyebrow" style="background:#fff;color:var(--blue)">Run → Check → Improve</span>
+</div>
+</section></div>
 </main>
-<footer class="footer">© 2026 이유진. 본 자료는 강의 및 실습 목적으로 제작되었습니다.</footer>
+<div aria-label="slide navigation" class="slide-controls">
+<button id="prevSlide" type="button">← 이전</button>
+<div class="counter"><span id="currentSlide">1</span>/<span id="totalSlides">1</span></div>
+<button id="nextSlide" type="button">다음 →</button>
+<span class="hint">← →</span>
+</div>
+<script>
+    const deck = document.querySelector('.deck');
+    const slides = Array.from(document.querySelectorAll('section.slide'));
+    const pages = Array.from(document.querySelectorAll('.slide-page'));
+    const current = document.getElementById('currentSlide');
+    const total = document.getElementById('totalSlides');
+    const prev = document.getElementById('prevSlide');
+    const next = document.getElementById('nextSlide');
+    total.textContent = slides.length;
+
+    let activeIndex = 0;
+
+    function goToSlide(index){
+      activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+      pages[activeIndex].scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'});
+      updateCounter();
+    }
+
+    function updateCounter(){
+      current.textContent = activeIndex + 1;
+      prev.disabled = activeIndex === 0;
+      next.disabled = activeIndex === slides.length - 1;
+      prev.style.opacity = prev.disabled ? '.38' : '1';
+      next.style.opacity = next.disabled ? '.38' : '1';
+    }
+
+    function syncByScroll(){
+      const deckCenter = deck.scrollLeft + deck.clientWidth / 2;
+      let nearest = 0;
+      let minDistance = Infinity;
+      pages.forEach((page, index) => {
+        const slideCenter = page.offsetLeft + page.offsetWidth / 2;
+        const distance = Math.abs(deckCenter - slideCenter);
+        if(distance < minDistance){ minDistance = distance; nearest = index; }
+      });
+      activeIndex = nearest;
+      updateCounter();
+    }
+
+    let scrollTimer;
+    deck.addEventListener('scroll', () => {
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(syncByScroll, 80);
+    });
+
+    prev.addEventListener('click', () => goToSlide(activeIndex - 1));
+    next.addEventListener('click', () => goToSlide(activeIndex + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if(event.key === 'ArrowRight' || event.key === 'PageDown') goToSlide(activeIndex + 1);
+      if(event.key === 'ArrowLeft' || event.key === 'PageUp') goToSlide(activeIndex - 1);
+      if(event.key === 'Home') goToSlide(0);
+      if(event.key === 'End') goToSlide(slides.length - 1);
+    });
+
+    document.querySelectorAll('.nav a').forEach(link => {
+      link.addEventListener('click', (event) => {
+        const id = link.getAttribute('href');
+        const targetIndex = slides.findIndex(slide => '#' + slide.id === id);
+        if(targetIndex >= 0){
+          event.preventDefault();
+          goToSlide(targetIndex);
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => goToSlide(activeIndex));
+    updateCounter();
+  </script>
 </body>
 </html>
