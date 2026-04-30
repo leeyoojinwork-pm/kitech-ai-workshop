@@ -174,5 +174,22 @@
 </section>
 </main>
 <footer class="footer">© 2026 이유진. 본 자료는 강의 및 실습 목적으로 제작되었습니다.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  function downloadPDF() {
+    var el = document.querySelector('main');
+    var opt = {
+      margin: 10,
+      filename: '전자책_Claude_Code_폴더와_Skill_설계.pdf',
+      image: { type: 'jpeg', quality: 0.97 },
+      html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(el).save();
+  }
+  if (new URLSearchParams(window.location.search).get('pdf') === '1') {
+    window.addEventListener('load', function() { setTimeout(downloadPDF, 800); });
+  }
+</script>
 </body>
 </html>
